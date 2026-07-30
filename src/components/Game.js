@@ -1,38 +1,56 @@
-import { gridSize } from '../utils/constants.js';
+import { Grid } from './Grid.js';
 
-function  slideRow(row) {
-    for(let i = 0; i < gridSize; i++){
-        let position = 0;
-        if(row[i] !== null){
-            row[position] = row[i];
-            if(position != i){
-                row[i] = null; 
+export class Game {
+    #grid;
+    #boardElement;
+
+    constructor() {
+        this.#grid = new Grid();
+        this.#boardElement = document.getElementById("game-board");
+    }
+
+    start() {
+        this.#setupInput();
+        this.#grid.spawnRandomTile(); 
+        this.#grid.spawnRandomTile(); 
+        this.render();
+    }
+
+    #setupInput(){
+        document.AddEventListener("keydown", (event) => {
+            let moved = false;
+
+            if(event.key === "ArrowLeft") moved = this.grid.moveLeft();
+            if(event.key === "ArrowRight") moved = this.grid.moveRight();
+            if(event.key === "ArrowUp") moved = this.grid.moveUp();
+            if(event.key === "ArrowDown") moved = this.grid.moveDown();
+
+            if(moved){
+                this.#grid.spawnRandomTile();
+                this.render();
             }
-            position++; 
-        }
-    } 
-
-    for (let i = 0; i < gridSize - 1; i++){
-        if(row[i] !== null && row[i] === row[i + 1]){
-            row[i] *= 2;
-            row[i + 1] = null; 
-            i++;
-        }
+        });
     }
 
-    position = 0;
-    for(let i = 0; i < gridSize; i++){
-        if(row[i] !== null){
-            const temp = row[i];
-            row[i] = null;
-            row[position] = temp;
-            position++;
+    #render() {
+        this.#boardElement.innerHTML = '';
+        const cells = this.#grid.getCells(); 
+
+        for (let r = 0; r < 4; r++) {
+            for (let c = 0; c < 4; c++) {
+                const value = cells[r][c];
+        
+                const tileDiv = document.createElement('div');
+                tileDiv.classList.add('tile');
+        
+                if (value !== null) {
+                    tileDiv.textContent = value;
+                    tileDiv.classList.add(`tile-${value}`);
+                } else 
+                    tileDiv.classList.add('tile-empty');
+
+                this.#boardElement.appendChild(tileDiv);
+            }
         }
     }
-
-    return row;
-}
-
-function slideRowRight(row){
-    
 }

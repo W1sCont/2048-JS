@@ -1,6 +1,6 @@
 import { getRandomInt } from '../utils/helpers.js';
 
-export class Title {
+export class Tile {
     constructor(x, y, value){
         this.x = x;
         this.y = y;

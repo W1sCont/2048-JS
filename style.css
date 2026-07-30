@@ -1,0 +1,27 @@
+#game-board {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px; 
+  
+  width: 400px;
+  height: 400px;
+  background-color: #bbada0;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  background-color: #ccc0b3;
+  border-radius: 3px;
+}
+
+.tile-2 { background-color: #eee4da; color: #776e65; }
+.tile-4 { background-color: #ede0c8; color: #776e65; }
+.tile-8 { background-color: #f2b179; color: #f9f6f2; }
