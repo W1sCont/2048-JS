@@ -3,37 +3,40 @@ import { Grid } from './Grid.js';
 export class Game {
     #grid;
     #boardElement;
+    #scoreElement;
 
     constructor() {
         this.#grid = new Grid();
         this.#boardElement = document.getElementById("game-board");
+        this.#scoreElement = document.getElementById("score");
     }
 
     start() {
         this.#setupInput();
         this.#grid.spawnRandomTile(); 
         this.#grid.spawnRandomTile(); 
-        this.render();
+        this.#render();
     }
 
     #setupInput(){
-        document.AddEventListener("keydown", (event) => {
+        document.addEventListener("keydown", (event) => {
             let moved = false;
 
-            if(event.key === "ArrowLeft") moved = this.grid.moveLeft();
-            if(event.key === "ArrowRight") moved = this.grid.moveRight();
-            if(event.key === "ArrowUp") moved = this.grid.moveUp();
-            if(event.key === "ArrowDown") moved = this.grid.moveDown();
+            if(event.key === "ArrowLeft") moved = this.#grid.moveLeft();
+            if(event.key === "ArrowRight") moved = this.#grid.moveRight();
+            if(event.key === "ArrowUp") moved = this.#grid.moveUp();
+            if(event.key === "ArrowDown") moved = this.#grid.moveDown();
 
             if(moved){
                 this.#grid.spawnRandomTile();
-                this.render();
+                this.#render();
             }
         });
     }
 
     #render() {
         this.#boardElement.innerHTML = '';
+        this.#scoreElement.textContent = this.#grid.getScore();
         const cells = this.#grid.getCells(); 
 
         for (let r = 0; r < 4; r++) {
